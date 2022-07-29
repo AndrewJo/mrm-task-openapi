@@ -17,6 +17,11 @@
   ],
   "author": "Andrew Jo <dev@andrewjo.com>",
   "license": "BSD-3-Clause",
+  "homepage": "https://github.com/AndrewJo/mrm-task-openapi#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AndrewJo/mrm-task-openapi.git"
+  },
   "engines": {
     "node": ">=10"
   },
