@@ -70,4 +70,4 @@ Everyone is welcome to contribute. Please take a moment to review the [contribut
 
 [Andrew Jo](https://github.com/AndrewJo/mrm-task-openapi) and [contributors](/graphs/contributors).
 
-MIT License, see the included [LICENSE.md](LICENSE.md) file.
+BSD 3-Clause License, see the included [LICENSE.md](LICENSE.md) file.
