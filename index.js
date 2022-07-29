@@ -147,13 +147,12 @@ module.exports.description =
 module.exports.parameters = {
   openapiFile: {
     type: "input",
-    message:
-      "Enter the filename (including subpath) for the OpenAPI specification file",
+    message: "Enter the OpenAPI filename",
     default: "openapi.yaml",
   },
   openapiVersion: {
     type: "input",
-    message: "OpenAPI specification version (default: 3.1.0)",
+    message: "OpenAPI specification version",
     default: "3.1.0",
   },
   title: {
