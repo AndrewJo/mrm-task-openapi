@@ -122,8 +122,6 @@ async function task({
     contact: override.includes("contact") ? contact : existingContact,
   };
 
-  log;
-
   if (openapi.exists()) {
     // Can't use the yaml provided by mrm-core due to a bug that messes up
     // existing file formatting and comments.
