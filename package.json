@@ -26,6 +26,7 @@
     "prettier": "^2.7.1"
   },
   "dependencies": {
+    "mrm-core": "^7.0.0",
     "node-fetch": "^2.6.7",
     "parse-author": "^2.0.0",
     "user-meta": "^1.0.0"
