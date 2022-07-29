@@ -1,8 +1,8 @@
-const { URL } = require("url");
-const { packageJson, yaml } = require("mrm-core");
+const { file, packageJson, yaml } = require("mrm-core");
 const fetch = require("node-fetch");
 const parseAuthor = require("parse-author");
 const meta = require("user-meta");
+const { parseDocument } = require("yaml");
 
 function inferContact(package) {
   return typeof package.get("author") === "object"
@@ -84,7 +84,11 @@ async function normalizeLicense(spdxIdentifier, spdxVersion, openapiVersion) {
   return undefined;
 }
 
-function task({
+function quote(str) {
+  return `"${str}"`;
+}
+
+async function task({
   openapiFile,
   openapiVersion,
   title,
@@ -95,11 +99,12 @@ function task({
   override,
   spdxLicenseDataVersion,
 }) {
-  const openapi = yaml(openapiFile, { openapi: openapiVersion });
-  const licenseObject = normalizeLicense(
+  const openapi = yaml(openapiFile, { openapi: openapiVersion, paths: {} });
+  const existingOpenAPIVersion = openapi.get("openapi");
+  const licenseObject = await normalizeLicense(
     license,
     spdxLicenseDataVersion,
-    openapiVersion
+    existingOpenAPIVersion
   );
   const existingTitle = openapi.get("info.title", title);
   const existingDescription = openapi.get("info.description", description);
@@ -117,7 +122,21 @@ function task({
     contact: override.includes("contact") ? contact : existingContact,
   };
 
-  openapi.merge({ openapi: openapiVersion, info }).save();
+  log;
+
+  if (openapi.exists()) {
+    // Can't use the yaml provided by mrm-core due to a bug that messes up
+    // existing file formatting and comments.
+    const output = file(openapiFile);
+    const yamlDoc = parseDocument(output.get(), { keepSourceTokens: true });
+    yamlDoc.set("info", info);
+    output.save(yamlDoc.toString());
+  } else {
+    // If the file didn't already exist, just set the info object and save the
+    // file.
+    openapi.set("info", info);
+    openapi.save();
+  }
 }
 
 module.exports = task;
