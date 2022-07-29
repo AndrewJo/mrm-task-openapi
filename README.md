@@ -26,7 +26,7 @@ npx mrm openapi
 
 Location of the OpenAPI specification file.
 
-### `openapiVersion` (default: `3.1.0`)
+### `openapiVersion` (default: taken from `openapi` field in `openapiFile` contents or fallback to `3.1.0`)
 
 OpenAPI specification version. See [all versions](https://github.com/OAI/OpenAPI-Specification/tree/main/versions).
 
