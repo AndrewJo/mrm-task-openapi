@@ -1,7 +1,6 @@
 const { file, packageJson, yaml } = require("mrm-core");
 const fetch = require("node-fetch");
 const parseAuthor = require("parse-author");
-const meta = require("user-meta");
 const { parseDocument } = require("yaml");
 
 function inferContact(package) {
@@ -9,7 +8,7 @@ function inferContact(package) {
     ? package.get("author")
     : typeof package.get("author") === "string"
     ? parseAuthor(package.get("author"))
-    : meta;
+    : require("user-meta");
 }
 
 function parseVersion(version) {
