@@ -2,6 +2,7 @@ const { file, packageJson, yaml } = require("mrm-core");
 const fetch = require("node-fetch");
 const parseAuthor = require("parse-author");
 const { parseDocument } = require("yaml");
+const omit = require("lodash.omit");
 
 function inferContact(package) {
   return typeof package.get("author") === "object"
@@ -110,6 +111,13 @@ async function task({
   const existingVersion = openapi.get("info.version", version);
   const existingLicense = openapi.get("info.license", licenseObject);
   const existingContact = openapi.get("info.contact", contact);
+  const existingInfo = omit(openapi.get("info"), [
+    "title",
+    "description",
+    "version",
+    "license",
+    "contact",
+  ]);
 
   const info = {
     title: override.includes("title") ? title : existingTitle,
@@ -119,6 +127,7 @@ async function task({
     version: override.includes("version") ? version : existingVersion,
     license: override.includes("license") ? licenseObject : existingLicense,
     contact: override.includes("contact") ? contact : existingContact,
+    ...existingInfo,
   };
 
   if (openapi.exists()) {
