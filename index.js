@@ -13,7 +13,7 @@ function inferContact(package) {
 }
 
 function parseVersion(version) {
-  const [major, minor, patch] = version.split(".");
+  const [major, minor, patch] = String(version).split(".");
   return {
     major,
     minor,
