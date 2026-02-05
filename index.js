@@ -124,7 +124,9 @@ async function task({
     description: override.includes("description")
       ? description
       : existingDescription,
-    version: override.includes("version") ? `"${version}"` : existingVersion,
+    version: override.includes("version")
+      ? version.toString()
+      : existingVersion,
     license: override.includes("license") ? licenseObject : existingLicense,
     contact: override.includes("contact") ? contact : existingContact,
     ...existingInfo,
