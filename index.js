@@ -49,6 +49,22 @@ function compareVersion(version1, version2) {
     : -1;
 }
 
+function formatVersion(version, format) {
+  const str = String(version);
+  const { major, minor, patch } = parseVersion(version);
+
+  switch (format) {
+    case "x":
+      return major;
+    case "x.y":
+      return `${major}.${minor ?? "0"}`;
+    case "x.y.z":
+      return `${major}.${minor ?? "0"}.${patch ?? "0"}`;
+    default:
+      return str;
+  }
+}
+
 async function getSpdxLicenseData(spdxVersion) {
   const response = await fetch(
     `https://raw.githubusercontent.com/spdx/license-list-data/v${spdxVersion}/json/licenses.json`
@@ -94,6 +110,7 @@ async function task({
   title,
   description,
   version,
+  versionFormat,
   license,
   contact,
   override,
@@ -125,7 +142,7 @@ async function task({
       ? description
       : existingDescription,
     version: override.includes("version")
-      ? version.toString()
+      ? formatVersion(version, versionFormat)
       : existingVersion,
     license: override.includes("license") ? licenseObject : existingLicense,
     contact: override.includes("contact") ? contact : existingContact,
@@ -183,6 +200,12 @@ module.exports.parameters = {
     default() {
       return packageJson().get("version");
     },
+  },
+  versionFormat: {
+    type: "list",
+    message: "Version format",
+    choices: ["x.y.z", "x.y", "x"],
+    default: "x.y.z",
   },
   license: {
     type: "input",
