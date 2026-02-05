@@ -1,6 +1,6 @@
 {
   "name": "mrm-task-openapi",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Mrm task that syncs OpenAPI Info object with package.json",
   "main": "index.js",
   "scripts": {
